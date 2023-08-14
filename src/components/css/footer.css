@@ -1,0 +1,13 @@
+footer {
+    padding: 5px;
+    position: absolute;
+    inset: auto 0 0 0;
+    background-color: #000;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
