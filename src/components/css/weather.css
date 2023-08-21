@@ -24,15 +24,18 @@ h1 {
 }
 
 input {
-    padding: 1rem;
     width: 100%;
+    padding: 1rem;
+    text-align: center;
     border: 2px solid #fff;
-    text-transform: uppercase;
+    border-radius: 6px;
+    text-transform: capitalize;
+    font-size: larger;
 }
 
 /* search button */
 
-.search-btn {
+/* .search-btn {
     position: absolute;
     inset: 0 0 0 auto;
     padding: 1rem 3rem;
@@ -48,7 +51,7 @@ input {
 
 .search-btn:active {
     transform: scale(0.9);
-}
+} */
 
 @media only screen and (max-width:600px) {
     .weather-box {
@@ -62,20 +65,20 @@ input {
     }
 
     input {
-        border: 2px solid #000;
-        border-radius: 6px;
-        text-align: center;
+        border-color: #000;
+        font-size: medium;
     }
 
+    /* 
     .search-box {
         flex-direction: column;
-    }
+    } */
 
-    .search-btn {
+    /* .search-btn {
         width: 50%;
         margin: 1rem auto;
         padding: 1rem;
         position: relative;
         border-radius: 6px;
-    }
+    } */
 }

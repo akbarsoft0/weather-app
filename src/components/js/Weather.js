@@ -1,71 +1,59 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/weather.css'
 import Tempcard from './Tempcard'
 
 function Weather() {
 
-    const [searchValue, setsearchValue] = useState("jaipur")
-    const [tempinfo, setTempInfo] = useState({})
-
-    // const getweather = async () => {
-    //     try {
-
-    //         let url = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}
-    //         &units=metric&appid=bde0b3ebb530c5020ec33020cac92a34`
-
-    //         const res = await fetch(url),
-    //             data = await res.json();
-
-    //         const { lon, lat } = data.coord,
-    //             { temp, humidity, pressure } = data.main,
-    //             { main: weathermood } = data.weather[0],
-    //             { name, timezone } = data,
-    //             { speed } = data.wind,
-    //             { country, sunset } = data.sys;
-
-    //         const myWeather = { temp, humidity, pressure, weathermood, name, speed, country, sunset, lon, lat, timezone };
-    //         setteminfo(myWeather)
-
-
-
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-    const getweather = useCallback(async () => {
+    const [searchValue, setSearchValue] = useState("jaipur")
+    const [tempInfo, setTempInfo] = useState({})
+    async function getWeather() {
         try {
-            // const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=bde0b3ebb530c5020ec33020cac92a34`
-            const res = await fetch(url);
-            const data = await res.json();
+            let apiKey = 'bde0b3ebb530c5020ec33020cac92a34';
+            let API = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}
+            &units=metric&appid=${apiKey}`
 
-            const { coord, main, weather, name, wind, sys, timezone } = data;
-            const { lon, lat } = coord;
-            const { temp, humidity, pressure } = main;
-            const { main: weatherMood } = weather[0];
-            const { speed } = wind;
-            const { country, sunset } = sys;
+            const res = await fetch(API),
+                data = await res.json();
 
-            const myWeather = { temp, humidity, pressure, weatherMood, name, speed, country, sunset, lon, lat, timezone };
-            setTempInfo(myWeather);
-        } catch (error) {
-            console.log(error);
+            const { lon, lat } = data.coord;
+            const { temp, humidity, pressure } = data.main;
+            const { main: weathermood } = data.weather[0];
+            const { name, timezone } = data;
+            const { speed } = data.wind;
+            const { country, sunset } = data.sys;
+
+            // make a new obj from extected data
+            const myWeather = { temp, humidity, pressure, weathermood, name, speed, country, sunset, lon, lat, timezone };
+            setTempInfo(myWeather)
         }
-    }, [searchValue])
+        catch (error) {
+            alert('invalid City Name')
+        }
+    }
 
     useEffect(() => {
-        getweather();
-        console.log("run")
-    }, [getweather])
+        getWeather();
+        // console.log("run")
+    }, [])
+
+    //ener key
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            getWeather();
+        }
+    };
     return (
         <div className='weather-box'>
             <h1>weather app</h1>
             <div className='search-box'>
-                <input type="search" value={searchValue} onChange={(e) => setsearchValue(e.target.value)} placeholder='search your city..' />
-                <button className='search-btn' onClick={getweather}>check</button>
+                <input type="search"
+                    value={searchValue}
+                    onKeyDown={handleKeyPress}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder='search your city..' />
+                {/* <button className='search-btn' onClick={getWeather}>check</button> */}
             </div>
-            <Tempcard tempinfo={tempinfo} />
+            <Tempcard tempinfo={tempInfo} />
         </div>
     )
 }
